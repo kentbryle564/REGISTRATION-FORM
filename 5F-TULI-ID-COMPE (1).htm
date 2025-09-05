@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Registration Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<style>
+  body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  padding: 40px;
+}
+
+.container {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+}
+
+input[type="text"],
+input[type="email"],
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.message {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+</style>
+
+<body>
+
+<div class="container">
+  <h2>Student Registration Form</h2>
+  <form id="registrationForm">
+    <label for="firstName">First Name</label>
+    <input type="text" id="firstName" required>
+
+    <label for="middleName">Middle Name</label>
+    <input type="text" id="middleName" required>
+
+    <label for="lastName">Last Name</label>
+    <input type="text" id="lastName" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" required>
+
+    <label for="year">Year</label>
+    <select id="year" required>
+      <option value="">--Select Year--</option>
+      <option value="1">1st Year</option>
+      <option value="2">2nd Year</option>
+      <option value="3">3rd Year</option>
+    </select>
+
+    <label for="section">Section</label>
+    <select id="section" required>
+      <option value="">--Select Section--</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="H">H</option>
+                    <option value="I">I</option>
+                    <option value="J">J</option>
+                    <option value="K">K</option>
+                    <option value="L">L</option>
+                    <option value="M">M</option>
+                    <option value="N">N</option>
+                    <option value="O">O</option>
+                    <option value="P">P</option>
+                    <option value="Q">Q</option>
+                    <option value="R">R</option>
+                    <option value="S">S</option>
+                    <option value="T">T</option>
+      
+    </select>
+
+    <label for="idNumber">ID Number</label>
+    <input type="text" id="idNumber" placeholder="e.g., 2023-33-323" required>
+
+    <label for="course">Course</label>
+    <select id="course" required>
+      <option value="">--Select Course--</option>
+      <option value="DCET">Diploma in Computer Engineering Technology</option>
+      <option value="DMET">Diploma in Mechanical Engineering Technology</option>
+      <option value="DEET">Diploma in Electrical Engineering Technology</option>
+      <option value="DOET">Diploma in Electronics Engineering Technology</option>
+    </select>
+
+    <button type="submit">Register</button>
+    <div class="message" id="message"></div>
+  </form>
+</div>
+
+  <script>
+      
+      const sectionSelect = document.getElementById("section");
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+        sectionSelect.add(new Option(letter, letter));
+      });
+
+      const form = document.getElementById("registrationForm");
+      const message = document.getElementById("message");
+
+      const showMessage = (text, type) => {
+        message.textContent = text;
+        message.className = message ${type};
+      };
+
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+
+        const fields = ["firstName", "middleName", "lastName", "email", "year", "section", "idNumber", "course"];
+        const values = Object.fromEntries(fields.map(id => [id, document.getElementById(id).value.trim()]));
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const idPattern = /^\d{4}-\d{2}-\d{3}$/; 
+        const namePattern = /^[A-Za-z\s]+$/;     
+        const lastNamePattern = /^[A-Za-z\s-]+$/; 
+
+
+        if (Object.values(values).some(v => !v)) {
+          return showMessage("Please fill out all fields.", "error");
+        }
+
+        
+        if (!namePattern.test(values.firstName) || !namePattern.test(values.middleName)) {
+          return showMessage("First and middle names must only contain letters and spaces.", "error");
+        }
+
+        
+        if (!lastNamePattern.test(values.lastName)) {
+          return showMessage("Last name must only contain letters, spaces, or hyphens.", "error");
+        }
+
+      
+        if (!emailPattern.test(values.email)) {
+          return showMessage("Invalid email format.", "error");
+        }
+
+        
+        if (!idPattern.test(values.idNumber)) {
+          return showMessage("Invalid ID format. Use format: 2023-33-323", "error");
+        }
+
+        showMessage("Registration successful!", "success");
+      
+      });
+    
+  </script>
+</body>
+</html>
+
